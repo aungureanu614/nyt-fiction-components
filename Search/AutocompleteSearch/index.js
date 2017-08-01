@@ -5,7 +5,7 @@ class AutocompleteSearch extends HTMLElement {
         el.text = el.getAttribute('text');
         const shadowRoot = el.attachShadow({ mode: 'open' });
         shadowRoot.innerHTML = `
-      <!-- styles are scoped to custom-search component -->
+      <!-- styles are scoped to autocomplete-search component -->
 			<style>
 
 				.input-style{
@@ -14,8 +14,13 @@ class AutocompleteSearch extends HTMLElement {
 					border: 1px solid #bbb;
 					height: 35px;
 				}
+				.hide{
+					display: none;
+				}
 			</style>
-				<input class="input-style" type="search" placeholder="${el.text}"></input>		
+				<input id="autocomplete-search" class="input-style" type="search" placeholder="${el.text}">
+					<ul class="hide" id="search-results"></ul>
+				</input>		
     `
     }
     connectedCallback() {
@@ -25,8 +30,9 @@ class AutocompleteSearch extends HTMLElement {
 
     _initSearch() {
         let el = this;
-        el.addEventListener('keyup', () => {
-        	
+        el.addEventListener('keyup', (e) => {
+        		// console.log(el)
+        	 //  console.log(el.shadowRoot.querySelector('#autocomplete-search').value);
             let event = new CustomEvent('initSearch', {
                 bubbles: true,
                 composed: true
